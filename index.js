@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 app.use(express.urlencoded({extended:true}))
 
-// route handeler
 app.get('/', (req, res) => {
   res.send(`
     <div>
