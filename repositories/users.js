@@ -33,15 +33,54 @@ class UsersRepository {
   randomId() {
     return crypto.randomBytes(4).toString('hex')
   }
+
+  async getOne(id) {
+    const records = await this.getAll()
+    return records.find(record => record.id === id)
+  }
+
+  async delete(id) {
+    const records = await this.getAll()
+    const filteredRecords = records.filter(record => record.id !== id)
+    await this.writeAll(filteredRecords)
+  }
+
+  async update(id, attrs) {
+    const records = await this.getAll()
+    const record = records.find(record => record.id === id)
+
+    if (!record) {
+      throw new Error(`record with id ${id} not found`)
+    }
+
+    Object.assign(record, attrs)
+    await this.writeAll(records)
+  }
+
+  async getOneBy(filters) {
+    const records = await this.getAll()
+
+    for (let record of records) {
+      let found = true
+
+      for (let key in filters) {
+        if (filters[key] !== record[key]) {
+          found = false
+        }
+      }
+
+      if (found) {
+        return record
+      }
+    }
+  }
 }
 
 const test = async () => {
   const repo = new UsersRepository('users.json')
 
-  await repo.create({ email: 'test@test.com', password: 'password'})
+  const user = await repo.getOneBy({password: 'mypassword'})
 
-  users = await repo.getAll()
-
-  console.log(users)
+  console.log(user)
 }
 test()
