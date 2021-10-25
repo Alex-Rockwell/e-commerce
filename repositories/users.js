@@ -24,6 +24,8 @@ class UsersRepository {
     attrs.id = this.randomId()
     records.push(attrs)
     await this.writeAll(records)
+
+    return attrs
   }
 
   async writeAll(records) {
@@ -76,11 +78,4 @@ class UsersRepository {
   }
 }
 
-const test = async () => {
-  const repo = new UsersRepository('users.json')
-
-  const user = await repo.getOneBy({password: 'mypassword'})
-
-  console.log(user)
-}
-test()
+module.exports = new UsersRepository('users.json')

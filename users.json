@@ -1,0 +1,27 @@
+[
+  {
+    "email": "hi@google.com",
+    "password": "heythere",
+    "id": "c778738d"
+  },
+  {
+    "email": "test@test.com",
+    "password": "mypassword",
+    "id": "20cb998b"
+  },
+  {
+    "email": "02@google.com",
+    "password": "pass02",
+    "id": "06546a4a"
+  },
+  {
+    "email": "03@google.com",
+    "password": "pass03",
+    "id": "8a4a48fe"
+  },
+  {
+    "email": "04@google.com",
+    "password": "pass04",
+    "id": "9986875a"
+  }
+]
