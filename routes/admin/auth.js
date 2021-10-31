@@ -32,7 +32,7 @@ router.post(
 
     req.session.userId = user.id
 
-    // console.log(req.body)
+    console.log(req.body)
     res.send('account created')
 })
 
@@ -53,9 +53,9 @@ router.post('/signin',
     .isEmail()
     .withMessage('Must provide a valid email')
     .custom(async (email) => {
-      const user = await usersRepo.getOneBy({email})
+      const user = await usersRepo.getOneBy({ email });
       if (!user) {
-        throw new Error('Email not found!')
+        throw new Error('Email not found!');
       }
     })
     ,
@@ -76,8 +76,8 @@ async (req, res) => {
   const errors =  validationResult(req)
   console.log(errors)
 
-  const {email} = req.body
-  const user = await usersRepo.getOneBy({email})
+  const { email, password } = req.body
+  const user = await usersRepo.getOneBy({ email })
 
   req.session.userId = user.id
 
