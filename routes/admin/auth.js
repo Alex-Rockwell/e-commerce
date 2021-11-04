@@ -52,25 +52,6 @@ router.post('/signin',
     .normalizeEmail()
     .isEmail()
     .withMessage('Must provide a valid email')
-    .custom(async (email) => {
-      const user = await usersRepo.getOneBy({ email });
-      if (!user) {
-        throw new Error('Email not found!');
-      }
-    })
-    ,
-  check('password')
-    .trim()
-    .custom(async (password, {req}) => {
-      const user = await usersRepo.getOneBy({email: req.body.email})
-      if (!user) {
-        throw new Error('Wrong password')
-      }
-      const validPassword = await usersRepo.comparePasswords(user.password, password)
-      if (!validPassword) {
-        throw new Error('Wrong password')
-      }
-    })
 ],
 async (req, res) => {
   const errors =  validationResult(req)
@@ -78,6 +59,15 @@ async (req, res) => {
 
   const { email, password } = req.body
   const user = await usersRepo.getOneBy({ email })
+
+  if (!user) {
+    res.send('Email not found!')
+  }
+
+  const validPassword = await usersRepo.comparePasswords(user.password, password)
+  if (!validPassword) {
+    res.send('Wrong password')
+  }
 
   req.session.userId = user.id
 
